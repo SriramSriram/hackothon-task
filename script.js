@@ -1,6 +1,9 @@
+var count=0;
 function createCards({bookName,ISBN,author,pages,Publisher,dateOfRelease}){
+    count++;
     const container=document.createElement("div");
-    container.setAttribute("id","paragraph");
+    container.setAttribute("id",`paragraph${count}`);
+    
     container.setAttribute("class", "container");
     container.innerHTML=
     `
@@ -12,8 +15,9 @@ function createCards({bookName,ISBN,author,pages,Publisher,dateOfRelease}){
     <p><strong>Date of Release:</strong> ${dateOfRelease}</p>
     `
     document.body.append(container);
-    
+    console.log(container)
 }
+
 
 fetch("https://anapioficeandfire.com/api/books")
 .then((data) => data.json())
@@ -37,11 +41,21 @@ api.forEach((data_api) =>{
 // Characters to be escaped [.*+?^${}()|[\]\\] 
 
 function search(){
-    let textToSearch = document.getElementById("texttosearch").value;
-    let paragraph = document.getElementById("paragraph");
+for(i=1;i<=count;i++){    
+
+  let textToSearch = document.getElementById("texttosearch").value;
+  console.log(textToSearch)
+    let paragraph = document.getElementById(`paragraph${i}`);
+    console.log(paragraph)
     textToSearch = textToSearch.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
 
+    
     let pattern = new RegExp(`${textToSearch}`,"gi");
 
-    paragraph.innerHTML = paragraph.textContent.replace(pattern, match => `<mark>${match}</mark>`)
+    paragraph.innerHTML = paragraph.innerHTML.replace(pattern, match => `<mark>${match}</mark>`)
+    console.log(paragraph)
+    console.log(textToSearch)
+    
+   
+    }
 }
